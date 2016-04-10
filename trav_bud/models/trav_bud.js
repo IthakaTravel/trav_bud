@@ -219,8 +219,8 @@ var Match = sequelize.define('Match', {
     freezeTableName: true
 });
 
-TripPreference.belongsTo(User, {'as': 'requester'})
-TripPreference.belongsTo(User, {'as': 'requestee'})
+Match.belongsTo(User, {'as': 'requester'})
+Match.belongsTo(User, {'as': 'requestee'})
 
 //sequelize.sync(force=true);
 sequelize.sync();

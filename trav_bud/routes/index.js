@@ -91,6 +91,32 @@ addTrip = (function(request_data, callback){
     }).then(function(newObj){ callback(newObj); });
 });
 
+sendRequest = (function(request_data, callback){
+    /*
+    request_data:
+        user_id: fk to User sending request
+        requestee_id: fk to User getting request
+    */
+    models.Match.create({
+        requesterId: request_data['user_id'],
+        requesteeId: request_data['requestee_id'],
+        matched: false,
+    }).then(function(newObj){ callback(newObj); });
+});
+
+acceptRequest = (function(request_data, callback){
+    /*
+    request_data:
+        user_id: fk to User accepting request
+        match_id: id of match being accepted
+    */
+    models.Match.findOne({
+        where: {id: request_data['match_id']}
+    }).then(function(newObj){
+        return newObj.updateAttributes({matched: true})
+    }).then(function(newObj){ callback(newObj); });
+});
+
 addLocationTrip = (function(request_data, callback){
     /*
     request_data:
@@ -109,6 +135,10 @@ addLocationTrip = (function(request_data, callback){
             tripId: request_data['trip_id']
         })
     }).then(function(newObj){ callback(newObj, gTrip); });
+});
+
+getSentRequest = (function(user_id, callback){
+    models.Match.findAll({where: {requesterId: user_id}}).then(function(newObj){ callback(newObj); });
 });
 
 getAllInterests = (function(callback){
@@ -189,14 +219,25 @@ router.get('/api/user/get/compatible/', function(req, res, next) {
     });
 });
 
-//TODO
 router.post('/api/user/send_request/', function(req, res, next) {
-    res.json({'success': true});
+    req_data = req.body
+    sendRequest(req_data, function(match){
+        res.json({'success': true, 'match': match});
+    });
 });
 
-//TODO
+router.get('/api/user/get/sent_requests/', function(req, res, next) {
+    user_id = req.query['id']
+    getSentRequest(user_id, function(send_requests){
+        res.json({'success': true, 'send_requests': send_requests});
+    });
+});
+
 router.post('/api/user/accept_request/', function(req, res, next) {
-    res.json({'success': true});
+    req_data = req.body
+    acceptRequest(req_data, function(match){
+        res.json({'success': true, 'match': match});
+    });
 });
 
 //TODO
