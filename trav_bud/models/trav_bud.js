@@ -183,7 +183,7 @@ var UserPreference = sequelize.define('UserPreference', {
     freezeTableName: true
 });
 UserPreference.belongsTo(User, {'as': 'user'})
-UserPreference.belongsTo(Preference, {'as': 'preference'})
+UserPreference.belongsTo(Preference, {'as': 'user_preference'})
 
 
 var TripPreference = sequelize.define('TripPreference', {
@@ -200,8 +200,8 @@ var TripPreference = sequelize.define('TripPreference', {
 }, {
     freezeTableName: true
 });
-TripPreference.belongsTo(Trip, {'as': 'user'})
-TripPreference.belongsTo(Preference, {'as': 'preference'})
+TripPreference.belongsTo(Trip, {'as': 'trip'})
+TripPreference.belongsTo(Preference, {'as': 'trip_preference'})
 
 
 var Match = sequelize.define('Match', {

@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 
 
-addUserDetails = (function(request_data){
+addUserDetails = (function(request_data, callback){
     /*
     request_data:
         name
@@ -19,7 +19,7 @@ addUserDetails = (function(request_data){
         email: request_data['email'],
         gender: request_data['gender'],
         bio: request_data['bio'],
-    }).then(function(newObj){});
+    }).then(function(newObj){ callback(newObj) });
 });
 
 addUserPreference = (function(request_data){
@@ -36,9 +36,10 @@ addUserPreference = (function(request_data){
     for(i in request_data['preferences']){
         models.UserPreference.create({
             userId: request_data['user_id'],
-            preferenceId: request_data['preferences'][i]['id'],
+            userPreferenceId: request_data['preferences'][i]['id'],
             selected_options: request_data['preferences'][i]['options'],
-        }).then(function(newObj){});
+        }).then(function(newObj){
+        });
     }
 });
 
@@ -110,7 +111,6 @@ addLocationTrip = (function(request_data, callback){
     }).then(function(newObj){ callback(newObj, gTrip); });
 });
 
-//GROT
 getAllInterests = (function(callback){
     interests = new Array()
     models.Interest.findAll({}).then(function(objs){
@@ -119,7 +119,6 @@ getAllInterests = (function(callback){
     })
 })
 
-//GROT
 getAllPreferences = (function(callback){
     preferences = new Array()
     models.Preference.findAll({}).then(function(objs){
@@ -140,8 +139,10 @@ getAllLocationTrips = (function(trip_id, callback){
 
 // USER APIs - START //
 router.post('/api/user/add/details/', function(req, res, next) {
-    addUserDetails(req.body);
-    res.json({'success': true});
+    req_data = req.body
+    addUserDetails(req_data, function(user){
+        res.json({'success': true, 'user': user});
+    });
 });
 
 router.get('/api/user/get/details/', function(req, res, next) {
@@ -163,7 +164,7 @@ router.get('/api/user/get/preference/', function(req, res, next) {
     });
 });
 
-//TODO - not required right now
+//not required right now
 router.post('/api/user/add/interest/', function(req, res, next) {
     res.json({'success': true});
 });
@@ -214,6 +215,13 @@ router.post('/api/trip/get/', function(req, res, next) {
     });
 });
 
+router.post('/api/trip/add/location/', function(req, res, next) {
+    req_data = req.body
+    addLocationTrip(req_data, function(location_trip, trip){
+        res.json({'success': true, 'location_trip': location_trip, 'trip': trip});
+    });
+});
+
 router.get('/api/trip/get/locations/', function(req, res, next) {
     trip_id = req.query['id']
     console.log(trip_id)
@@ -224,21 +232,28 @@ router.get('/api/trip/get/locations/', function(req, res, next) {
     });
 });
 
-router.post('/api/trip/add/location/', function(req, res, next) {
-    req_data = req.body
-    addLocationTrip(req_data, function(location_trip, trip){
-        res.json({'success': true, 'location_trip': location_trip, 'trip': trip});
-    });
-});
-
 router.post('/api/trip/add/preference/', function(req, res, next) {
     addTripPreference(req.body);
     res.json({'success': true});
 });
 
+router.get('/api/trip/get/preference/', function(req, res, next) {
+    models.TripPreference.findAll({where: {tripId: req.query['id']}}).then(function(trip_preferences){
+        res.setHeader('Content-Type', 'application/json');
+        res.json({'success': true, 'trip_preferences': trip_preferences});
+    });
+});
+
 router.post('/api/trip/add/interest/', function(req, res, next) {
     addTripInterest(req.body);
     res.json({'success': true});
+});
+
+router.get('/api/trip/get/interest/', function(req, res, next) {
+    models.TripInterest.findAll({where: {tripId: req.query['id']}}).then(function(trip_interests){
+        res.setHeader('Content-Type', 'application/json');
+        res.json({'success': true, 'trip_interests': trip_interests});
+    });
 });
 // TRIP APIs - END //
 
