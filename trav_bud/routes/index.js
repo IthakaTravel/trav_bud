@@ -19,9 +19,7 @@ addUserDetails = (function(request_data){
         email: request_data['email'],
         gender: request_data['gender'],
         bio: request_data['bio'],
-    }).then(function(newObj){
-        console.log(newObj);
-    });
+    }).then(function(newObj){});
 });
 
 addUserPreference = (function(request_data){
@@ -40,9 +38,7 @@ addUserPreference = (function(request_data){
             userId: request_data['user_id'],
             preferenceId: request_data['preferences'][i]['id'],
             selected_options: request_data['preferences'][i]['options'],
-        }).then(function(newObj){
-            console.log('new user preference created');
-        });
+        }).then(function(newObj){});
     }
 });
 
@@ -62,9 +58,7 @@ addTripPreference = (function(request_data){
             tripId: request_data['trip_id'],
             preferenceId: request_data['preferences'][i]['id'],
             selected_options: request_data['preferences'][i]['options'],
-        }).then(function(newObj){
-            console.log('new trip preference created');
-        });
+        }).then(function(newObj){});
     }
 });
 
@@ -119,13 +113,11 @@ sendAllPreferences = (function(callback){
 // USER APIs - START //
 router.post('/api/user/add/details/', function(req, res, next) {
     addUserDetails(req.body);
-    res.setHeader('Content-Type', 'application/json');
     res.json({'success': true});
 });
 
 router.get('/api/user/get/details/', function(req, res, next) {
     models.User.findOne({where: {id: req.query['id']}}).then(function(user){
-        console.log(user);
         res.setHeader('Content-Type', 'application/json');
         res.json({'success': true, 'user': user});
     });
@@ -133,13 +125,11 @@ router.get('/api/user/get/details/', function(req, res, next) {
 
 router.post('/api/user/add/preference/', function(req, res, next) {
     addUserPreference(req.body);
-    res.setHeader('Content-Type', 'application/json');
     res.json({'success': true});
 });
 
 router.get('/api/user/get/preference/', function(req, res, next) {
     models.UserPreference.findAll({where: {userId: req.query['userId']}}).then(function(user_preferences){
-        console.log(user_preferences)
         res.setHeader('Content-Type', 'application/json');
         res.json({'success': true, 'user_preferences': user_preferences});
     });
@@ -147,13 +137,11 @@ router.get('/api/user/get/preference/', function(req, res, next) {
 
 //TODO
 router.post('/api/user/add/interest/', function(req, res, next) {
-    res.setHeader('Content-Type', 'application/json');
     res.json({'success': true});
 });
 
 router.get('/api/user/get/interest/', function(req, res, next) {
     models.UserInterest.findAll({where: {userId: req.query['userId']}}).then(function(user_interests){
-        console.log(user_interests)
         res.setHeader('Content-Type', 'application/json');
         res.json({'success': true, 'user_interests': user_interests});
     });
@@ -161,25 +149,21 @@ router.get('/api/user/get/interest/', function(req, res, next) {
 
 //TODO
 router.post('/api/user/get/compatible/', function(req, res, next) {
-    res.setHeader('Content-Type', 'application/json');
     res.json({'success': true});
 });
 
 //TODO
 router.post('/api/user/send_request/', function(req, res, next) {
-    res.setHeader('Content-Type', 'application/json');
     res.json({'success': true});
 });
 
 //TODO
 router.post('/api/user/accept_request/', function(req, res, next) {
-    res.setHeader('Content-Type', 'application/json');
     res.json({'success': true});
 });
 
 //TODO
 router.post('/api/user/chat/', function(req, res, next) {
-    res.setHeader('Content-Type', 'application/json');
     res.json({'success': true});
 });
 // USER APIs - END //
@@ -189,25 +173,21 @@ router.post('/api/user/chat/', function(req, res, next) {
 // TRIP APIs - START //
 router.post('/api/trip/add/', function(req, res, next) {
     addTrip(req.body);
-    res.setHeader('Content-Type', 'application/json');
     res.json({'success': true});
 });
 
 router.post('/api/trip/add/location/', function(req, res, next) {
     addLocationTrip(req.body);
-    res.setHeader('Content-Type', 'application/json');
     res.json({'success': true});
 });
 
 router.post('/api/trip/add/preference/', function(req, res, next) {
     addTripPreference(req.body);
-    res.setHeader('Content-Type', 'application/json');
     res.json({'success': true});
 });
 
 //TODO
 router.post('/api/trip/add/interest/', function(req, res, next) {
-    res.setHeader('Content-Type', 'application/json');
     res.json({'success': true});
 });
 // TRIP APIs - END //
@@ -217,15 +197,12 @@ router.post('/api/trip/add/interest/', function(req, res, next) {
 // INTEREST APIs - START //
 router.get('/api/interest/all/', function(req, res, next) {
     sendAllInterests(function (interests){
-        console.log(interests)
-        res.setHeader('Content-Type', 'application/json');
         res.json({'success': true, 'interests': interests});
     });
 });
 
 router.get('/api/interest/', function(req, res, next) {
-    models.Interest.find({where: {id: req.query['id']}}).then(function(interest){
-        res.setHeader('Content-Type', 'application/json');
+    models.Interest.findOne({where: {id: req.query['id']}}).then(function(interest){
         res.json({'success': true, 'interest': interest});
     });
 });
@@ -236,22 +213,19 @@ router.get('/api/interest/', function(req, res, next) {
 // PREFERENCE APIs - START //
 router.get('/api/preference/all/', function(req, res, next) {
     sendAllPreferences(function (preferences){
-        res.setHeader('Content-Type', 'application/json');
         res.json({'success': true, 'preferences': preferences});
     });
 });
 
 router.get('/api/preference/', function(req, res, next) {
-    models.Preference.find({where: {id: req.query['id']}}).then(function(preference){
-        res.setHeader('Content-Type', 'application/json');
+    models.Preference.findOne({where: {id: req.query['id']}}).then(function(preference){
         res.json({'success': true, 'preference': preference});
     });
 });
 
 router.get('/api/preference/option/', function(req, res, next) {
-    models.PreferenceOption.find({where: {id: req.query['id']}}).then(function(preference){
-        res.setHeader('Content-Type', 'application/json');
-        res.json({'success': true, 'preference': preference});
+    models.PreferenceOption.findOne({where: {id: req.query['id']}}).then(function(preferenceOption){
+        res.json({'success': true, 'preferenceOption': preferenceOption});
     });
 });
 // PREFERENCE APIs - END //
