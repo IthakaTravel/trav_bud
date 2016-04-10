@@ -48,6 +48,28 @@ var User = sequelize.define('User', {
 });
 
 
+var Trip = sequelize.define('Trip', {
+    /*
+    class Trip:
+        start_date
+        end_date
+        trips: m2o -> LocationTrip
+        user: fk -> User
+    */
+    start_date: {
+        type: Sequelize.DATEONLY,
+    },
+
+    end_date: {
+        type: Sequelize.DATEONLY,
+    },
+
+}, {
+    freezeTableName: true
+});
+Trip.belongsTo(User, {'as': 'user'})
+
+
 var LocationTrip = sequelize.define('LocationTrip', {
     /*
     class LocationTrip:
@@ -70,33 +92,7 @@ var LocationTrip = sequelize.define('LocationTrip', {
 }, {
     freezeTableName: true
 });
-
-
-var Trip = sequelize.define('Trip', {
-    /*
-    class Trip:
-        start_date
-        end_date
-        trips: m2o -> LocationTrip
-        user: fk -> User
-    */
-    start_date: {
-        type: Sequelize.DATEONLY,
-    },
-
-    end_date: {
-        type: Sequelize.DATEONLY,
-    },
-
-    trips: {
-        type: Sequelize.STRING,
-    },
-
-}, {
-    freezeTableName: true
-});
-Trip.belongsTo(User, {'as': 'user'})
-Trip.hasMany(LocationTrip, {'as': 'location_trip'})
+LocationTrip.belongsTo(Trip, {'as': 'trip'})
 
 
 var Interest = sequelize.define('Interest', {
