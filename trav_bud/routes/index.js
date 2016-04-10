@@ -128,7 +128,6 @@ getAllPreferences = (function(callback){
     })
 })
 
-//GROT
 getAllLocationTrips = (function(trip_id, callback){
     location_trips = new Array()
     models.LocationTrip.findAll({where: {tripId: trip_id}}).then(function(objs){
