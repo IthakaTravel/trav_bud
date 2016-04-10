@@ -135,6 +135,14 @@ getAllLocationTrips = (function(trip_id, callback){
     })
 })
 
+getAllCompatibleUsers = (function(user_id, callback){
+    compatible_users = new Array()
+    models.User.findAll({}).then(function(objs){
+        for(i in objs){ compatible_users.push(objs[i]); }
+        callback(compatible_users);
+    })
+})
+
 
 
 // USER APIs - START //
@@ -147,7 +155,6 @@ router.post('/api/user/add/details/', function(req, res, next) {
 
 router.get('/api/user/get/details/', function(req, res, next) {
     models.User.findOne({where: {id: req.query['id']}}).then(function(user){
-        res.setHeader('Content-Type', 'application/json');
         res.json({'success': true, 'user': user});
     });
 });
@@ -159,7 +166,6 @@ router.post('/api/user/add/preference/', function(req, res, next) {
 
 router.get('/api/user/get/preference/', function(req, res, next) {
     models.UserPreference.findAll({where: {userId: req.query['id']}}).then(function(user_preferences){
-        res.setHeader('Content-Type', 'application/json');
         res.json({'success': true, 'user_preferences': user_preferences});
     });
 });
@@ -172,14 +178,15 @@ router.post('/api/user/add/interest/', function(req, res, next) {
 //not required right now
 router.get('/api/user/get/interest/', function(req, res, next) {
     models.UserInterest.findAll({where: {userId: req.query['userId']}}).then(function(user_interests){
-        res.setHeader('Content-Type', 'application/json');
         res.json({'success': true, 'user_interests': user_interests});
     });
 });
 
-//TODO
-router.post('/api/user/get/compatible/', function(req, res, next) {
-    res.json({'success': true});
+router.get('/api/user/get/compatible/', function(req, res, next) {
+    user_id = req.query['id']
+    getAllCompatibleUsers(user_id, function(compatible_users){
+        res.json({'success': true, 'compatible_users': compatible_users});
+    });
 });
 
 //TODO
@@ -210,7 +217,6 @@ router.post('/api/trip/add/', function(req, res, next) {
 
 router.post('/api/trip/get/', function(req, res, next) {
     models.Trip.findOne({where: {id: req.query['id']}}).then(function(trip){
-        res.setHeader('Content-Type', 'application/json');
         res.json({'success': true, 'trip': trip});
     });
 });
@@ -224,10 +230,7 @@ router.post('/api/trip/add/location/', function(req, res, next) {
 
 router.get('/api/trip/get/locations/', function(req, res, next) {
     trip_id = req.query['id']
-    console.log(trip_id)
     getAllLocationTrips(trip_id, function(location_trips){
-        console.log('location trips found')
-        console.log(location_trips.length)
         res.json({'success': true, 'location_trips': location_trips});
     });
 });
@@ -239,7 +242,6 @@ router.post('/api/trip/add/preference/', function(req, res, next) {
 
 router.get('/api/trip/get/preference/', function(req, res, next) {
     models.TripPreference.findAll({where: {tripId: req.query['id']}}).then(function(trip_preferences){
-        res.setHeader('Content-Type', 'application/json');
         res.json({'success': true, 'trip_preferences': trip_preferences});
     });
 });
@@ -251,7 +253,6 @@ router.post('/api/trip/add/interest/', function(req, res, next) {
 
 router.get('/api/trip/get/interest/', function(req, res, next) {
     models.TripInterest.findAll({where: {tripId: req.query['id']}}).then(function(trip_interests){
-        res.setHeader('Content-Type', 'application/json');
         res.json({'success': true, 'trip_interests': trip_interests});
     });
 });
