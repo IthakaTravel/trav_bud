@@ -74,7 +74,7 @@ addTrip = (function(request_data){
         user_id: fk to User creating the trip
     */
     models.Trip.create({
-        UserId: request_data['user_id'],
+        userId: request_data['user_id'],
     }).then(function(newObj){});
 });
 
@@ -86,29 +86,31 @@ addLocationTrip = (function(request_data){
         start_date
         end_date
     */
-    models.Trip.findAll({
+    models.Trip.findOne({
         where: {id: request_data['trip_id']}
     }).then(function(trip){
-        models.LocationTrip.create({
+        return models.LocationTrip.create({
             location: request_data['location'],
-            TripId: request_data['trip_id']
-        }).then(function(locationTrip){});
-    });
+            tripId: request_data['trip_id']
+        })
+    }).then(function(locationTrip){});
 });
 
+//GROT
 sendAllInterests = (function(callback){
     interests = new Array()
     models.Interest.findAll({}).then(function(objs){
         for(i in objs){ interests.push(objs[i]); }
-        callback(interests)
+        callback(interests);
     })
 })
 
+//GROT
 sendAllPreferences = (function(callback){
     preferences = new Array()
     models.Preference.findAll({}).then(function(objs){
         for(i in objs){ preferences.push(objs[i]); }
-        callback(preferences)
+        callback(preferences);
     })
 })
 
@@ -118,66 +120,67 @@ sendAllPreferences = (function(callback){
 router.post('/api/user/add/details/', function(req, res, next) {
     addUserDetails(req.body);
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({'success': true}));
+    res.json({'success': true});
 });
 
 router.get('/api/user/get/details/', function(req, res, next) {
-    models.User.find({where: {id: req.query['id']}}).then(function(user){
+    models.User.findOne({where: {id: req.query['id']}}).then(function(user){
+        console.log(user);
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({'success': true, 'user': user}));
+        res.json({'success': true, 'user': user});
     });
 });
 
 router.post('/api/user/add/preference/', function(req, res, next) {
     addUserPreference(req.body);
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({'success': true}));
+    res.json({'success': true});
 });
 
 router.get('/api/user/get/preference/', function(req, res, next) {
     models.UserPreference.findAll({where: {userId: req.query['userId']}}).then(function(user_preferences){
         console.log(user_preferences)
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({'success': true, 'user_preferences': user_preferences}));
+        res.json({'success': true, 'user_preferences': user_preferences});
     });
 });
 
 //TODO
 router.post('/api/user/add/interest/', function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({'success': true}));
+    res.json({'success': true});
 });
 
 router.get('/api/user/get/interest/', function(req, res, next) {
     models.UserInterest.findAll({where: {userId: req.query['userId']}}).then(function(user_interests){
         console.log(user_interests)
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({'success': true, 'user_interests': user_interests}));
+        res.json({'success': true, 'user_interests': user_interests});
     });
 });
 
 //TODO
 router.post('/api/user/get/compatible/', function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({'success': true}));
+    res.json({'success': true});
 });
 
 //TODO
 router.post('/api/user/send_request/', function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({'success': true}));
+    res.json({'success': true});
 });
 
 //TODO
 router.post('/api/user/accept_request/', function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({'success': true}));
+    res.json({'success': true});
 });
 
 //TODO
 router.post('/api/user/chat/', function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({'success': true}));
+    res.json({'success': true});
 });
 // USER APIs - END //
 
@@ -187,25 +190,25 @@ router.post('/api/user/chat/', function(req, res, next) {
 router.post('/api/trip/add/', function(req, res, next) {
     addTrip(req.body);
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({'success': true}));
+    res.json({'success': true});
 });
 
-router.post('/api/trip/add/location', function(req, res, next) {
+router.post('/api/trip/add/location/', function(req, res, next) {
     addLocationTrip(req.body);
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({'success': true}));
+    res.json({'success': true});
 });
 
 router.post('/api/trip/add/preference/', function(req, res, next) {
     addTripPreference(req.body);
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({'success': true}));
+    res.json({'success': true});
 });
 
 //TODO
 router.post('/api/trip/add/interest/', function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({'success': true}));
+    res.json({'success': true});
 });
 // TRIP APIs - END //
 
@@ -216,14 +219,14 @@ router.get('/api/interest/all/', function(req, res, next) {
     sendAllInterests(function (interests){
         console.log(interests)
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({'success': true, 'interests': interests}));
+        res.json({'success': true, 'interests': interests});
     });
 });
 
 router.get('/api/interest/', function(req, res, next) {
     models.Interest.find({where: {id: req.query['id']}}).then(function(interest){
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({'success': true, 'interest': interest}));
+        res.json({'success': true, 'interest': interest});
     });
 });
 // INTEREST APIs - END //
@@ -234,21 +237,21 @@ router.get('/api/interest/', function(req, res, next) {
 router.get('/api/preference/all/', function(req, res, next) {
     sendAllPreferences(function (preferences){
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({'success': true, 'preferences': preferences}));
+        res.json({'success': true, 'preferences': preferences});
     });
 });
 
 router.get('/api/preference/', function(req, res, next) {
     models.Preference.find({where: {id: req.query['id']}}).then(function(preference){
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({'success': true, 'preference': preference}));
+        res.json({'success': true, 'preference': preference});
     });
 });
 
 router.get('/api/preference/option/', function(req, res, next) {
     models.PreferenceOption.find({where: {id: req.query['id']}}).then(function(preference){
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({'success': true, 'preference': preference}));
+        res.json({'success': true, 'preference': preference});
     });
 });
 // PREFERENCE APIs - END //
