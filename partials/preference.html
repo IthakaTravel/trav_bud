@@ -1,0 +1,113 @@
+<div class="navbar-fixed">
+  <nav class="purple lighten-1">
+    <div class="row nav-wrapper">
+      <div class="col s12 center-align nav-style">
+        <h4 class="margin-0">
+          <i class="fa fa-bars hide"></i>
+          <i class="fa fa-arrow-left"></i>
+          Preference
+          <img src="images/poker_face.png" width="40" height="40" />
+        </h4>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="container" ng-controller="PreferenceCtrl">
+  <div class="row">
+    <div class="col s12">
+      <h4 class="headings center-align margin-10">What are you looking for?</h4>
+      <div class="input-field margin-top-0">
+        <select>
+          <option value="" disabled selected>Choose your option</option>
+          <option value="1">Option 1</option>
+          <option value="2">Option 2</option>
+          <option value="3">Option 3</option>
+        </select>
+        <label>select</label>
+      </div>
+    </div>
+    <div class="col s12">
+      <h4 class="headings center-align margin-10">What are you looking for?</h4>
+      <div class="input-field margin-top-0">
+        <select multiple class="browser-default"
+          chosen
+          create-option-text="'Create item'"
+          persistent-create-option="true"
+          skip-no-results="true"
+          create-option="createOption"
+          ng-model="state"
+          ng-options="s for s in states">
+          <option value=""></option>
+        </select>
+      </div>
+    </div>
+    <div class="col s12">
+      <h4 class="headings center-align margin-10">What is your daily budget?</h4>
+      <div class="input-field margin-top-0">
+        <div id="range"></div>
+      </div>
+    </div>
+    <div class="col s12">
+      <h4 class="headings center-align margin-10">Your lifestyle preferences</h4>
+      <div class="center-align preference-radio-btn">
+        <span class="sub-titles">Do you smoke?</span>
+        <p class="margin-left-15">
+          <input class="with-gap" name="group1" type="radio" id="test1" checked />
+          <label for="test1">Yes</label>
+        </p>
+        <p>
+          <input class="with-gap" name="group1" type="radio" id="test2" />
+          <label for="test2">No</label>
+        </p>
+      </div>
+      <div class="center-align sex-radio-btn">
+        <span class="sub-titles">Do you drink?</span>
+        <p class="margin-left-26">
+          <input class="with-gap" name="group2" type="radio" id="test3" checked />
+          <label for="test3">Yes</label>
+        </p>
+        <p>
+          <input class="with-gap" name="group2" type="radio" id="test4" />
+          <label for="test4">No</label>
+        </p>
+      </div>
+      <div class="left-align">
+        <span class="sub-titles">Preferred accomodation</span>
+        <p>
+          <input type="checkbox" class="filled-in" id="filled-in-box1" checked="checked" />
+          <label for="filled-in-box1">Hotels</label>
+        </p>
+        <p>
+          <input type="checkbox" class="filled-in" id="filled-in-box2"  />
+          <label for="filled-in-box2">Hostels</label>
+        </p>
+      </div>
+    </div>
+
+    <div class="col s12 center-align">
+      <a class="waves-effect waves-light btn purple lighten-1">Proceed</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('select').material_select();
+
+    var slider = document.getElementById('range');
+    noUiSlider.create(slider, {
+     start: [20, 80],
+     connect: true,
+     step: 1,
+     range: {
+       'min': 0,
+       'max': 100
+     },
+     format: wNumb({
+       decimals: 0
+     })
+    });
+  });
+</script>

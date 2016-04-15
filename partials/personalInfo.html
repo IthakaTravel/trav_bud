@@ -1,0 +1,76 @@
+<div class="navbar-fixed">
+  <nav class="purple lighten-1">
+    <div class="row nav-wrapper">
+      <div class="col s12 center-align nav-style">
+        <h4 class="margin-0">
+          <i class="fa fa-bars"></i>
+          <i class="fa fa-arrow-left hide"></i>
+          Personal Info
+          <img src="images/poker_face.png" width="40" height="40" />
+        </h4>
+      </div>
+    </div>
+  </nav>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col s12">
+      <h4 class="headings center-align margin-10">Confirm your name</h4>
+      <div class="input-field margin-top-0">
+        <input id="breif" type="text" class="validate">
+        <label for="name" class="">Your Name</label>
+      </div>
+    </div>
+    <div class="col s12">
+      <h4 class="headings center-align margin-10">Sex</h4>
+      <div class="center-align sex-radio-btn">
+        <p>
+          <input class="with-gap" name="group1" type="radio" id="test1" checked />
+          <label for="test1">Male</label>
+        </p>
+        <p>
+          <input class="with-gap" name="group1" type="radio" id="test2" />
+          <label for="test2">Female</label>
+        </p>
+      </div>
+    </div>
+    <div class="col s12">
+      <h4 class="headings center-align margin-10">How old are you?</h4>
+      <div class="input-field margin-top-0">
+        <input id="age" type="text" class="validate">
+        <label for="age" class="">Your Age</label>
+      </div>
+    </div>
+    <div class="col s12">
+      <h4 class="headings center-align margin-10">Where do you come from?</h4>
+      <div class="input-field margin-top-0">
+        <select>
+          <option value="" disabled selected>Choose your option</option>
+          <option value="1">Option 1</option>
+          <option value="2">Option 2</option>
+          <option value="3">Option 3</option>
+        </select>
+        <label>Select Nationality</label>
+      </div>
+    </div>
+    <div class="col s12">
+      <h4 class="headings center-align margin-10">Tell us a little about yourself</h4>
+      <div class="input-field margin-top-0">
+        <textarea id="breif" class="materialize-textarea" length="200"></textarea>
+        <label for="breif" class="">Your Name</label>
+      </div>
+    </div>
+    <div class="col s12 center-align">
+      <a class="waves-effect waves-light btn purple lighten-1">Find buddies!</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('select').material_select();
+  });
+</script>

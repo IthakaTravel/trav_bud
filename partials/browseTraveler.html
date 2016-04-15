@@ -1,0 +1,34 @@
+<div class="navbar-fixed">
+  <nav class="purple lighten-1">
+    <div class="row nav-wrapper">
+      <div class="col s12 center-align nav-style">
+        <h4 class="margin-0">
+          <i class="fa fa-bars"></i>
+          <i class="fa fa-arrow-left hide"></i>
+          Browse travelers
+          <img src="images/poker_face.png" width="40" height="40" />
+        </h4>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="container" ng-controller="BrowseTravelerCtrl">
+  <div class="row">
+    <div class="col s12">
+      <div class="buddies-cont">
+        <h5 class="left-align">Yay! Now you are all set to find a travel buddy!</h5>
+        <h5 class="center-align">
+          swipe right to express interest, left to dismiss
+        </h5>
+        <ul class="buddy-list">
+          <li ng-repeat="thing in things" class="animate-repeat">
+            <div class="test" item-swipe="" on-remove="removeThing(thing)">
+              {{thing.name}} swipe me right.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

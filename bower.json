@@ -1,0 +1,22 @@
+{
+  "name": "trav_bud_app",
+  "description": "generating the list of mini trips to travel with buddies",
+  "license": "MIT",
+  "homepage": "https://github.com/IthakaTravel/trav_bud",
+  "private": true,
+  "dependencies": {
+    "angular": "1.4.x",
+    "angular-mocks": "1.4.x",
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.3.6",
+    "angular-route": "1.4.x",
+    "angular-resource": "1.4.x",
+    "angular-animate": "~1.5.0",
+    "Materialize": "materialize#^0.97.6",
+    "angular-chosen-localytics": "^1.4.0",
+    "angular-touch": "^1.5.3"
+  },
+  "resolutions": {
+    "angular": "1.4.x"
+  }
+}

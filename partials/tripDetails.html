@@ -1,0 +1,56 @@
+<div class="navbar-fixed">
+  <nav class="purple lighten-1">
+    <div class="row nav-wrapper">
+      <div class="col s12 center-align nav-style">
+        <h4 class="margin-0">
+          <i class="fa fa-bars"></i>
+          <i class="fa fa-arrow-left hide"></i>
+          Trip Details
+          <img src="images/poker_face.png" width="40" height="40" />
+        </h4>
+      </div>
+    </div>
+  </nav>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col s12">
+      <h4 class="headings center-align margin-10">I am going to</h4>
+      <div class="input-field margin-top-0">
+        <input id="breif" type="text" class="validate">
+        <label for="name" class="">Location</label>
+      </div>
+    </div>
+    <div class="col s12">
+      <h4 class="headings center-align margin-10">My trip dates are</h4>
+      <div class="center-align date-range">
+        <p>
+           <input type="date" class="start-datepicker">
+        </p>
+          to
+        <p>
+           <input type="date" class="end-datepicker">
+        </p>
+      </div>
+    </div>
+    <div class="col s12 center-align">
+      <a class="waves-effect waves-light btn purple lighten-1">Proceed</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('.start-datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 16 // Creates a dropdown of 15 years to control year
+    });
+    $('.end-datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 16 // Creates a dropdown of 15 years to control year
+    });
+  });
+</script>
